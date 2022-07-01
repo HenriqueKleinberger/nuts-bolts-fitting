@@ -25,38 +25,38 @@ let bag = [
 
 let (bolts, nuts) = List.partition (fun (item : Item) -> item.Type = Type.Bolt) bag
 
-let rec findBoltsAndNuts = fun (bolts: Item list) (nuts: Item list) ->
-    if not nuts.IsEmpty then
-        
+let rec fitBoltsAndNuts = fun (bolts: Item list) (nuts: Item list) ->
+    match bolts with
+    | [] -> []
+    | boltPivot::othersBolts ->
         let partitionSmallerEqualBigger (list: Item list) (pivot: Item) =
-          let rec loop (l: Item list) (pivot: Item)= 
+          let rec loop (l: Item list) (i: Item)= 
             match l with 
             | [] -> [], [], []
             | firstItem::othersItems ->
                 let l1, l2, l3 = loop othersItems pivot
-                if firstItem.Size < pivot.Size then firstItem::l1, l2, l3
-                elif firstItem.Size > pivot.Size then l1, l2, firstItem::l3
+                if firstItem.Size < i.Size then firstItem::l1, l2, l3
+                elif firstItem.Size > i.Size then l1, l2, firstItem::l3
                 else l1, firstItem::l2 ,l3
           loop list pivot
-
-        // take the first nut and arrange the bolts
-        let nutPivot = nuts.Head;
-        let (smallerBolts, equalsBolts, biggerBolts) = partitionSmallerEqualBigger bolts nutPivot
-
-        // take one of the bolts that fits and arrange the nuts
-        let boltPivot = equalsBolts.Head
+        
+        // arrange the nuts
         let (smallerNuts, equalsNuts, biggerNuts) = partitionSmallerEqualBigger nuts boltPivot
 
-        // print the pairs that fits
-        if equalsBolts.Length = equalsNuts.Length then
-            for i in 0 .. equalsBolts.Length - 1 do
-                 eprintfn $"bolt: {equalsBolts[i].Size}, nut: {nuts[i].Size}"
-        else 
-            eprintfn $"the sizes are not the same"
+        // take the equal nut and arrange the bolts
+        let nutPivot = equalsNuts.Head;
+        let (smallerBolts, equalsBolts, biggerBolts) = partitionSmallerEqualBigger othersBolts nutPivot
 
         // recursion
-        findBoltsAndNuts smallerNuts smallerBolts
-        findBoltsAndNuts biggerBolts biggerNuts
+        let smaller = fitBoltsAndNuts smallerNuts smallerBolts
+        let bigger = fitBoltsAndNuts biggerBolts biggerNuts
+
+        let equals = List.zip (boltPivot::equalsBolts) equalsNuts
+
+        smaller@equals@bigger
 
 
-findBoltsAndNuts bolts nuts
+let result = fitBoltsAndNuts bolts nuts
+
+// print the pairs that fits
+List.map(fun ((bolt: Item), (nut: Item)) -> eprintfn $"{bolt.Type}: {bolt.Size} fits into {nut.Type}: {nut.Size}") result
