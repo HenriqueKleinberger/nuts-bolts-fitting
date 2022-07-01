@@ -29,13 +29,13 @@ let rec findBoltsAndNuts = fun (bolts: Item list) (nuts: Item list) ->
     if not nuts.IsEmpty then
         
         let partitionSmallerEqualBigger (list: Item list) (pivot: Item) =
-          let rec loop (l: Item list) (i: Item)= 
+          let rec loop (l: Item list) (pivot: Item)= 
             match l with 
             | [] -> [], [], []
             | firstItem::othersItems ->
-                let l1, l2, l3 = loop othersItems firstItem
-                if firstItem.Size < i.Size then firstItem::l1, l2, l3
-                elif firstItem.Size > i.Size then l1, l2, firstItem::l3
+                let l1, l2, l3 = loop othersItems pivot
+                if firstItem.Size < pivot.Size then firstItem::l1, l2, l3
+                elif firstItem.Size > pivot.Size then l1, l2, firstItem::l3
                 else l1, firstItem::l2 ,l3
           loop list pivot
 
