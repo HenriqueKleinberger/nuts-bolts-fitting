@@ -1,29 +1,29 @@
 ﻿module Exercice
-type Type =
+type ToolType =
 | Nut
 | Bolt
 
 type Item = {
     Size : int
-    Type: Type
+    ToolType: ToolType
 }
 
 let bag = [
-    { Type = Nut; Size = 10 }
-    { Type = Bolt; Size = 10 }
-    { Type = Nut; Size = 5 }
-    { Type = Bolt; Size = 12 }
-    { Type = Nut; Size = 12 }
-    { Type = Nut; Size = 18 }
-    { Type = Bolt; Size = 18 }
-    { Type = Nut; Size = 3 }
-    { Type = Bolt; Size = 5 }
-    { Type = Bolt; Size = 3 }
-    { Type = Bolt; Size = 3 }
-    { Type = Nut; Size = 3 }
+    { ToolType = Nut; Size = 10 }
+    { ToolType = Bolt; Size = 10 }
+    { ToolType = Nut; Size = 5 }
+    { ToolType = Bolt; Size = 12 }
+    { ToolType = Nut; Size = 12 }
+    { ToolType = Nut; Size = 18 }
+    { ToolType = Bolt; Size = 18 }
+    { ToolType = Nut; Size = 3 }
+    { ToolType = Bolt; Size = 5 }
+    { ToolType = Bolt; Size = 3 }
+    { ToolType = Bolt; Size = 3 }
+    { ToolType = Nut; Size = 3 }
 ]
 let fitBoltsAndNuts = fun (items: Item list) ->
-    let (bolts, nuts) = List.partition (fun (item : Item) -> item.Type = Type.Bolt) bag
+    let (bolts, nuts) = List.partition (fun (item : Item) -> item.ToolType = ToolType.Bolt) items
 
     let rec fitBoltsAndNuts = fun (bolts: Item list) (nuts: Item list) ->
         match bolts with
@@ -48,7 +48,7 @@ let fitBoltsAndNuts = fun (items: Item list) ->
             let (smallerBolts, equalsBolts, biggerBolts) = partitionSmallerEqualBigger othersBolts nutPivot
 
             // recursion
-            let smaller = fitBoltsAndNuts smallerNuts smallerBolts
+            let smaller = fitBoltsAndNuts smallerBolts smallerNuts
             let bigger = fitBoltsAndNuts biggerBolts biggerNuts
 
             let equals = List.zip (boltPivot::equalsBolts) equalsNuts
@@ -61,4 +61,4 @@ let fitBoltsAndNuts = fun (items: Item list) ->
 let result = fitBoltsAndNuts bag
 
 // print the pairs that fits
-List.map(fun ((bolt: Item), (nut: Item)) -> eprintfn $"{bolt.Type}: {bolt.Size} fits into {nut.Type}: {nut.Size}") result
+List.map(fun ((bolt: Item), (nut: Item)) -> eprintfn $"{bolt.ToolType}: {bolt.Size} fits into {nut.ToolType}: {nut.Size}") result
