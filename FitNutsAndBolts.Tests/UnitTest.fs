@@ -13,6 +13,7 @@ type TestClass () =
         let result = fitBoltsAndNuts bag
 
         Assert.IsTrue(result.Length = 0)
+    
 
     [<Test>]
     member this.ShouldReturnFittingNutsAndBoltsWhenAllFits() =
@@ -35,3 +36,5 @@ type TestClass () =
 
         for (bolt, nut) in result do
             Assert.IsTrue(bolt.ToolType = ToolType.Bolt && nut.ToolType = ToolType.Nut && nut.Size = bolt.Size)
+
+        Assert.AreEqual(bag.Length/2, result.Length)
