@@ -8,20 +8,6 @@ type Item = {
     ToolType: ToolType
 }
 
-let bag = [
-    { ToolType = Nut; Size = 10 }
-    { ToolType = Bolt; Size = 10 }
-    { ToolType = Nut; Size = 5 }
-    { ToolType = Bolt; Size = 12 }
-    { ToolType = Nut; Size = 12 }
-    { ToolType = Nut; Size = 18 }
-    { ToolType = Bolt; Size = 18 }
-    { ToolType = Nut; Size = 3 }
-    { ToolType = Bolt; Size = 5 }
-    { ToolType = Bolt; Size = 3 }
-    { ToolType = Bolt; Size = 3 }
-    { ToolType = Nut; Size = 3 }
-]
 let fitBoltsAndNuts = fun (items: Item list) ->
     let (bolts, nuts) = List.partition (fun (item : Item) -> item.ToolType = ToolType.Bolt) items
 
@@ -56,9 +42,3 @@ let fitBoltsAndNuts = fun (items: Item list) ->
             smaller@equals@bigger
         
     fitBoltsAndNuts bolts nuts
-
-
-let result = fitBoltsAndNuts bag
-
-// print the pairs that fits
-List.map(fun ((bolt: Item), (nut: Item)) -> eprintfn $"{bolt.ToolType}: {bolt.Size} fits into {nut.ToolType}: {nut.Size}") result
