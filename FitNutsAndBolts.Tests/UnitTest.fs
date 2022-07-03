@@ -1,7 +1,7 @@
 module FitNutsAndBolts.Tests
 
 open NUnit.Framework
-open Exercice
+open Assignment
 
 [<TestFixture>]
 type TestClass () =

@@ -1,4 +1,4 @@
-﻿module Exercice
+﻿module Assignment
     type ToolType =
     | Nut
     | Bolt
