@@ -10,10 +10,9 @@ type TestClass () =
     member this.ShouldReturnEmptyListWhenBagIsEmpty() =
         let bag = []
 
-        let result = fitBoltsAndNuts bag
+        let result = FitBoltsAndNuts bag
 
         Assert.IsTrue(result.Length = 0)
-    
 
     [<Test>]
     member this.ShouldReturnFittingNutsAndBoltsWhenAllFits() =
@@ -32,7 +31,7 @@ type TestClass () =
             { ToolType = Nut; Size = 3 }
         ]
 
-        let result = fitBoltsAndNuts bag
+        let result = FitBoltsAndNuts bag
 
         for (bolt, nut) in result do
             Assert.IsTrue(bolt.ToolType = ToolType.Bolt && nut.ToolType = ToolType.Nut && nut.Size = bolt.Size)
